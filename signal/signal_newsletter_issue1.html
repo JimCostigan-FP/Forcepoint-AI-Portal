@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Signal — Enterprise AI Weekly · Issue #1 · May 1, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#f0f2f5;font-family:'Barlow',Arial,sans-serif;padding:2rem 1rem;color:#1a1d23;}
+.wrap{max-width:680px;margin:0 auto;}
+.nl-header{border-radius:12px;overflow:hidden;margin-bottom:1.25rem;}
+.nl-header img{width:100%;display:block;}
+.emerging{background:#E8F5F3;border-left:4px solid #00af9a;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:1.25rem;font-size:13px;line-height:1.75;color:#1a1d23;}
+.emerging strong{color:#005a4e;}
+.section{margin-bottom:1.5rem;}
+.sec-label{font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#007565;border-bottom:2px solid #00af9a;padding-bottom:5px;margin-bottom:10px;}
+.data-note{font-size:11px;color:#6b7280;background:#f9fafb;border:1px solid #e5e7eb;border-radius:5px;padding:6px 10px;margin-bottom:10px;}
+.cg{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
+.cc{background:#fff;border:1px solid #e2e5ea;border-radius:7px;padding:10px 12px;}
+.cn{font-size:13px;font-weight:700;color:#1a1d23;margin-bottom:1px;}
+.csys{font-size:11px;color:#6b7280;margin-bottom:4px;}
+.cs{font-size:12px;font-weight:500;}
+.done{color:#0a6644;}.prog{color:#0052cc;}.req{color:#6b7280;}
+.csrc{font-size:10px;color:#c0c4cc;margin-top:4px;}
+.win-item{border-left:3px solid #00af9a;padding:9px 13px;margin-bottom:8px;background:#fff;border-radius:0 8px 8px 0;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.win-item p{font-size:13px;line-height:1.65;color:#1a1d23;}
+.wsrc{font-size:10px;color:#9ca3af;margin-top:4px;}
+.sk-card{background:#fff;border:1px solid #e2e5ea;border-radius:8px;padding:12px 14px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.sk-name{font-size:13px;font-weight:700;color:#1a1d23;}
+.sk-det{font-size:13px;color:#374151;margin-top:4px;line-height:1.65;}
+.sk-src{font-size:10px;color:#9ca3af;margin-top:4px;}
+.up-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
+.up-badge{font-size:10px;font-weight:700;background:#003654;color:#cbfaf4;border-radius:4px;padding:3px 8px;white-space:nowrap;margin-top:2px;letter-spacing:0.03em;flex-shrink:0;}
+.up-text{font-size:13px;color:#1a1d23;line-height:1.65;}
+.up-src{font-size:10px;color:#9ca3af;}
+.feedback{background:#fff;border:1px solid #e2e5ea;border-radius:8px;padding:13px 15px;font-size:13px;color:#374151;line-height:1.75;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.nl-footer{border-radius:12px;overflow:hidden;margin-top:1.25rem;}
+.nl-footer img{width:100%;display:block;}
+.footer-text{text-align:center;font-size:11px;color:#9ca3af;margin-top:10px;padding-bottom:1rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nl-header"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDI4MCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iMjgwIj4KCiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iMjgwIiBmaWxsPSIjMDAzNjU0Ij48L3JlY3Q+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAgNzApIj48cmVjdCB4PSIwLjAwIiB5PSI2MS40NiIgd2lkdGg9IjYiIGhlaWdodD0iMTcuMDgiIHJ4PSIyLjUiIGZpbGw9IiNiNTMzOTkiIG9wYWNpdHk9IjAuNjg4Ij48L3JlY3Q+PHJlY3QgeD0iMTQuMDAiIHk9IjYwLjU5IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOC44MiIgcng9IjIuNSIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC44MzciPjwvcmVjdD48cmVjdCB4PSIyOC4wMCIgeT0iNTIuNDciIHdpZHRoPSI2IiBoZWlnaHQ9IjM1LjA1IiByeD0iMi41IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjk2MiI+PC9yZWN0PjxyZWN0IHg9IjQyLjAwIiB5PSI2NC40NyIgd2lkdGg9IjYiIGhlaWdodD0iMTEuMDYiIHJ4PSIyLjUiIGZpbGw9IiNiNTMzOTkiIG9wYWNpdHk9IjAuODk2Ij48L3JlY3Q+PHJlY3QgeD0iNTYuMDAiIHk9IjU2LjE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIyNy42NCIgcng9IjIuNSIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC43ODYiPjwvcmVjdD48cmVjdCB4PSI3MC4wMCIgeT0iNjYuMDAiIHdpZHRoPSI2IiBoZWlnaHQ9IjguMDAiIHJ4PSIyLjUiIGZpbGw9IiNiNTMzOTkiIG9wYWNpdHk9IjAuNzE1Ij48L3JlY3Q+PHJlY3QgeD0iODQuMDAiIHk9IjYyLjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSIxNS42NyIgcng9IjIuNSIgZmlsbD0iI2I1MzM5OSIgb3BhY2l0eT0iMC43MDEiPjwvcmVjdD48cmVjdCB4PSI5OC4wMCIgeT0iNTkuOTIiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwLjE3IiByeD0iMi41IiBmaWxsPSIjMDBhZjlhIiBvcGFjaXR5PSIxIj48L3JlY3Q+PHJlY3QgeD0iMTEyLjAwIiB5PSI0OS41MyIgd2lkdGg9IjYiIGhlaWdodD0iNDAuOTUiIHJ4PSIyLjUiIGZpbGw9IiMwMGFmOWEiIG9wYWNpdHk9IjEiPjwvcmVjdD48cmVjdCB4PSIxMjYuMDAiIHk9IjQzLjU0IiB3aWR0aD0iNiIgaGVpZ2h0PSI1Mi45MiIgcng9IjIuNSIgZmlsbD0iIzAwYWY5YSIgb3BhY2l0eT0iMSI+PC9yZWN0PjxyZWN0IHg9IjE0MC4wMCIgeT0iNDQuNDciIHdpZHRoPSI2IiBoZWlnaHQ9IjUxLjA1IiByeD0iMi41IiBmaWxsPSIjMDBhZjlhIiBvcGFjaXR5PSIxIj48L3JlY3Q+PHJlY3QgeD0iMTU0LjAwIiB5PSI1MS43MSIgd2lkdGg9IjYiIGhlaWdodD0iMzYuNTciIHJ4PSIyLjUiIGZpbGw9IiMwMGFmOWEiIG9wYWNpdHk9IjEiPjwvcmVjdD48cmVjdCB4PSIxNjguMDAiIHk9IjYwLjQ3IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOS4wNyIgcng9IjIuNSIgZmlsbD0iIzAwYWY5YSIgb3BhY2l0eT0iMSI+PC9yZWN0PjxyZWN0IHg9IjE4Mi4wMCIgeT0iNjQuOTQiIHdpZHRoPSI2IiBoZWlnaHQ9IjEwLjEyIiByeD0iMi41IiBmaWxsPSIjMDBhZjlhIiBvcGFjaXR5PSIxIj48L3JlY3Q+PHJlY3QgeD0iMTk2LjAwIiB5PSI2Mi4xNyIgd2lkdGg9IjYiIGhlaWdodD0iMTUuNjUiIHJ4PSIyLjUiIGZpbGw9IiMwMGFmOWEiIG9wYWNpdHk9IjEiPjwvcmVjdD48cmVjdCB4PSIyMTAuMDAiIHk9IjU0LjAwIiB3aWR0aD0iNiIgaGVpZ2h0PSIzMi4wMCIgcng9IjIuNSIgZmlsbD0iIzAwYWY5YSIgb3BhY2l0eT0iMSI+PC9yZWN0PjwvZz4KICA8dGV4dCB4PSIzNDAiIHk9IjE2MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtc2l6ZT0iMTIwIiBsZXR0ZXItc3BhY2luZz0iLTQiIGZpbGw9IiNmZmZmZmYiPlNJR05BTDwvdGV4dD4KICA8bGluZSB4MT0iMzQwIiB5MT0iMjAwIiB4Mj0iNDAwIiB5Mj0iMjAwIiBzdHJva2U9IiMwMGFmOWEiIHN0cm9rZS13aWR0aD0iMyI+PC9saW5lPgogIDx0ZXh0IHg9IjQxNiIgeT0iMjA4IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjcwMCIgZm9udC1zaXplPSIyMiIgbGV0dGVyLXNwYWNpbmc9IjUiIGZpbGw9IiMwMGFmOWEiPkVOVEVSUFJJU0UgQUkgV0VFS0xZIMK3IEEgRk9SQ0VQT0lOVCBCUk9BRENBU1Q8L3RleHQ+Cjwvc3ZnPg==" alt="The Signal — Enterprise AI Weekly"></div>
+
+  <div class="emerging">
+    <strong>From Jim Costigan, AI Program Manager:</strong> Welcome to the inaugural edition of The Signal — your weekly update on Forcepoint's Enterprise AI program. This is a new and emerging communications format, still under active development. We genuinely welcome your feedback on content, format, and frequency. Reach out directly or leave a comment on the Confluence version of this newsletter.
+  </div>
+
+  <div class="section">
+    <div class="sec-label">Connector status — week of May 1</div>
+    <div class="data-note">Source of truth: Jira AI-86 — MCP Connector Catalogue · P0-Critical · Assignee: Mathew Steele · Fetched May 1, 2026</div>
+    <div class="cg">
+      <div class="cc">
+        <div class="cn">Microsoft 365</div>
+        <div class="csys">Email, Calendar, Teams, SharePoint</div>
+        <div class="cs done">&#10003; Done</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">Atlassian</div>
+        <div class="csys">Jira, Confluence</div>
+        <div class="cs done">&#10003; Done</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">Salesforce</div>
+        <div class="csys">CRM, Cases, Opportunities</div>
+        <div class="cs done">&#10003; Done</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">Workday Financial</div>
+        <div class="csys">Finance, HR, ERP</div>
+        <div class="cs prog">&#8594; In Progress</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">Zuora</div>
+        <div class="csys">Billing, Subscriptions, Revenue</div>
+        <div class="cs prog">&#8594; In Progress</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">Gainsight</div>
+        <div class="csys">Customer Success, Health Scores</div>
+        <div class="cs req">&#9675; Requested</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">HubSpot</div>
+        <div class="csys">Marketing, CRM, Campaigns</div>
+        <div class="cs req">&#9675; Requested</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">Freshdesk</div>
+        <div class="csys">Support Tickets, SLA</div>
+        <div class="cs req">&#9675; Requested</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">Databricks</div>
+        <div class="csys">Data Platform, Analytics</div>
+        <div class="cs req">&#9675; Requested</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+      <div class="cc">
+        <div class="cn">Bespoke API Framework</div>
+        <div class="csys">Custom / Internal APIs</div>
+        <div class="cs req">&#9675; Requested</div>
+        <div class="csrc">Source: AI-86 MCP Connector Catalogue</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">This week's wins</div>
+    <div class="win-item">
+      <p>Three connectors are confirmed Done: Microsoft 365 (Email, Calendar, Teams, SharePoint), Atlassian (Jira, Confluence), and Salesforce (CRM, Cases, Opportunities). These form the live foundation of the AI platform's enterprise data access.</p>
+      <div class="wsrc">Source: Jira AI-86 — MCP Connector Catalogue · Fetched May 1, 2026</div>
+    </div>
+    <div class="win-item">
+      <p>Workday Financial and Zuora are actively In Progress — the team is building out Finance, HR, ERP, and Billing connectivity right now.</p>
+      <div class="wsrc">Source: Jira AI-86 — MCP Connector Catalogue · Fetched May 1, 2026</div>
+    </div>
+    <div class="win-item">
+      <p>The Architecture Design Document reached version 2.1, published April 27 and refreshed April 30 — the single source of truth for all integration architecture decisions, updated after every sprint.</p>
+      <div class="wsrc">Source: ADD v2.1 (Confluence) · AI/pages/4985880577</div>
+    </div>
+    <div class="win-item">
+      <p>The Skills governance lifecycle is live. The six-step review process — contribution through post-deployment monitoring — is now the official path for all enterprise skills submissions.</p>
+      <div class="wsrc">Source: EAI Integration Roadmap (Confluence) · Skills Repository and Governance section</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">Skills corner</div>
+    <div class="sk-card">
+      <div class="sk-name">salesforce-cdata-cache v1 — production</div>
+      <div class="sk-det">The program's first enterprise-published skill. Reduces token consumption on Salesforce CData queries. The 85% reduction figure cited in program documentation is sourced directly from the EAI Integration Roadmap Skills Repository section in Confluence, attributed to the initial publication by David Burden.</div>
+      <div class="sk-src">Source: EAI Integration Roadmap (Confluence) · Skills Repository section · David Burden, April 18, 2026</div>
+    </div>
+    <div class="sk-card">
+      <div class="sk-name">Ambassador skills path — board 4770</div>
+      <div class="sk-det">Tracks capability-building work across departments. Updates featured here weekly as stories move through the board.</div>
+      <div class="sk-src">Source: Jira board 4770 · AI Incubation Program</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-label">Coming up</div>
+    <div class="up-item"><span class="up-badge">Connectors</span><div><div class="up-text">Workday Financial and Zuora are the active connectors in build. Five more — Gainsight, HubSpot, Freshdesk, Databricks, and a Bespoke API Framework — are requested and queued.</div><div class="up-src">Source: Jira AI-86 · MCP Connector Catalogue</div></div></div>
+    <div class="up-item"><span class="up-badge">AI Portal</span><div><div class="up-text">The AI Enablement Portal (AI-110) is in design and architecture review — will become the dedicated home for all enterprise AI content, tools, skills, and events at Forcepoint.</div><div class="up-src">Source: AI Enablement Portal (Confluence) · AI-110</div></div></div>
+    <div class="up-item"><span class="up-badge">Branding Skill</span><div><div class="up-text">Next week: a look at AI-294 — the Forcepoint PowerPoint Branding Skill — and the cross-department collaboration bringing it to life.</div><div class="up-src">Source: Jira · AI-294 · Queued for Issue #2</div></div></div>
+    <div class="up-item"><span class="up-badge">Skills</span><div><div class="up-text">A "Hello World" DIY Claude Skill guide (AI-107) is in the backlog — a step-by-step guide for any Forcepoint employee to create and deploy their first skill.</div><div class="up-src">Source: Jira · AI-107</div></div></div>
+  </div>
+
+  <div class="feedback">
+    This is edition #1 of The Signal. The format and content mix are being shaped in real time. If something is missing, confusing, or especially useful — tell us. Contact Jim Costigan or leave a comment on the Confluence version of this newsletter. Your input directly shapes what this becomes.
+  </div>
+
+  <div class="nl-footer"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDI4MCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iMjgwIj4KCiAgPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iMjgwIiBmaWxsPSIjZmZmZmZmIj48L3JlY3Q+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAgNzApIj48cmVjdCB4PSIwLjAwIiB5PSI2MS40NiIgd2lkdGg9IjYiIGhlaWdodD0iMTcuMDgiIHJ4PSIyLjUiIGZpbGw9IiNhMzAwODAiIG9wYWNpdHk9IjAuNjg4Ij48L3JlY3Q+PHJlY3QgeD0iMTQuMDAiIHk9IjYwLjU5IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOC44MiIgcng9IjIuNSIgZmlsbD0iI2FkYjBiMyIgb3BhY2l0eT0iMC44MzciPjwvcmVjdD48cmVjdCB4PSIyOC4wMCIgeT0iNTIuNDciIHdpZHRoPSI2IiBoZWlnaHQ9IjM1LjA1IiByeD0iMi41IiBmaWxsPSIjYWRiMGIzIiBvcGFjaXR5PSIwLjk2MiI+PC9yZWN0PjxyZWN0IHg9IjQyLjAwIiB5PSI2NC40NyIgd2lkdGg9IjYiIGhlaWdodD0iMTEuMDYiIHJ4PSIyLjUiIGZpbGw9IiNhMzAwODAiIG9wYWNpdHk9IjAuODk2Ij48L3JlY3Q+PHJlY3QgeD0iNTYuMDAiIHk9IjU2LjE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIyNy42NCIgcng9IjIuNSIgZmlsbD0iI2FkYjBiMyIgb3BhY2l0eT0iMC43ODYiPjwvcmVjdD48cmVjdCB4PSI3MC4wMCIgeT0iNjYuMDAiIHdpZHRoPSI2IiBoZWlnaHQ9IjguMDAiIHJ4PSIyLjUiIGZpbGw9IiNhMzAwODAiIG9wYWNpdHk9IjAuNzE1Ij48L3JlY3Q+PHJlY3QgeD0iODQuMDAiIHk9IjYyLjE2IiB3aWR0aD0iNiIgaGVpZ2h0PSIxNS42NyIgcng9IjIuNSIgZmlsbD0iI2EzMDA4MCIgb3BhY2l0eT0iMC43MDEiPjwvcmVjdD48cmVjdCB4PSI5OC4wMCIgeT0iNTkuOTIiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwLjE3IiByeD0iMi41IiBmaWxsPSIjMDBhZjlhIiBvcGFjaXR5PSIxIj48L3JlY3Q+PHJlY3QgeD0iMTEyLjAwIiB5PSI0OS41MyIgd2lkdGg9IjYiIGhlaWdodD0iNDAuOTUiIHJ4PSIyLjUiIGZpbGw9IiMwMGFmOWEiIG9wYWNpdHk9IjEiPjwvcmVjdD48cmVjdCB4PSIxMjYuMDAiIHk9IjQzLjU0IiB3aWR0aD0iNiIgaGVpZ2h0PSI1Mi45MiIgcng9IjIuNSIgZmlsbD0iIzAwYWY5YSIgb3BhY2l0eT0iMSI+PC9yZWN0PjxyZWN0IHg9IjE0MC4wMCIgeT0iNDQuNDciIHdpZHRoPSI2IiBoZWlnaHQ9IjUxLjA1IiByeD0iMi41IiBmaWxsPSIjMDBhZjlhIiBvcGFjaXR5PSIxIj48L3JlY3Q+PHJlY3QgeD0iMTU0LjAwIiB5PSI1MS43MSIgd2lkdGg9IjYiIGhlaWdodD0iMzYuNTciIHJ4PSIyLjUiIGZpbGw9IiMwMGFmOWEiIG9wYWNpdHk9IjEiPjwvcmVjdD48cmVjdCB4PSIxNjguMDAiIHk9IjYwLjQ3IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOS4wNyIgcng9IjIuNSIgZmlsbD0iIzAwYWY5YSIgb3BhY2l0eT0iMSI+PC9yZWN0PjxyZWN0IHg9IjE4Mi4wMCIgeT0iNjQuOTQiIHdpZHRoPSI2IiBoZWlnaHQ9IjEwLjEyIiByeD0iMi41IiBmaWxsPSIjMDBhZjlhIiBvcGFjaXR5PSIxIj48L3JlY3Q+PHJlY3QgeD0iMTk2LjAwIiB5PSI2Mi4xNyIgd2lkdGg9IjYiIGhlaWdodD0iMTUuNjUiIHJ4PSIyLjUiIGZpbGw9IiMwMGFmOWEiIG9wYWNpdHk9IjEiPjwvcmVjdD48cmVjdCB4PSIyMTAuMDAiIHk9IjU0LjAwIiB3aWR0aD0iNiIgaGVpZ2h0PSIzMi4wMCIgcng9IjIuNSIgZmlsbD0iIzAwYWY5YSIgb3BhY2l0eT0iMSI+PC9yZWN0PjwvZz4KICA8dGV4dCB4PSIzNDAiIHk9IjE2MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZvbnQtc2l6ZT0iMTIwIiBsZXR0ZXItc3BhY2luZz0iLTQiIGZpbGw9IiMwMDM2NTQiPlNJR05BTDwvdGV4dD4KICA8bGluZSB4MT0iMzQwIiB5MT0iMjAwIiB4Mj0iNDAwIiB5Mj0iMjAwIiBzdHJva2U9IiMwMGFmOWEiIHN0cm9rZS13aWR0aD0iMyI+PC9saW5lPgogIDx0ZXh0IHg9IjQxNiIgeT0iMjA4IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjcwMCIgZm9udC1zaXplPSIyMiIgbGV0dGVyLXNwYWNpbmc9IjUiIGZpbGw9IiMwMDc1NjUiPkVOVEVSUFJJU0UgQUkgV0VFS0xZIMK3IEEgRk9SQ0VQT0lOVCBCUk9BRENBU1Q8L3RleHQ+Cjwvc3ZnPg==" alt="The Signal — Enterprise AI Weekly"></div>
+  <div class="footer-text">The Signal · Enterprise AI · Forcepoint CIO Department · Jim Costigan, AI Program Manager · May 1, 2026</div>
+</div>
+</body>
+</html>
