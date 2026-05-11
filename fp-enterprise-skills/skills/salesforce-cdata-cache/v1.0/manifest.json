@@ -1,0 +1,28 @@
+{
+  "name": "salesforce-cdata-cache",
+  "version": "1.0",
+  "description": "Eliminates redundant CData MCP discovery calls by caching Salesforce schemas, picklist values, and query templates.",
+  "triggers": [
+    "Salesforce", "pipeline", "opportunity", "deal", "revenue",
+    "ACV", "TCV", "closed-won", "closed-lost", "forecast",
+    "account health", "quota", "attainment", "win rate", "churn", "renewal"
+  ],
+  "owner": "david.burden@forcepoint.com",
+  "contributed_date": "2026-04-18",
+  "token_efficiency": {
+    "baseline_tokens": 22000,
+    "skill_tokens": 3000,
+    "reduction_percent": 85
+  },
+  "connection": {
+    "catalog": "Salesforce",
+    "schema": "Salesforce"
+  },
+  "execution_paths": ["Claude-LangGraph", "NMAP"],
+  "maintenance": {
+    "review_cadence": "quarterly",
+    "deprecation_criteria": "If Salesforce schema changes >20% of cached columns",
+    "skill_owner": "david.burden@forcepoint.com"
+  },
+  "status": "active"
+}

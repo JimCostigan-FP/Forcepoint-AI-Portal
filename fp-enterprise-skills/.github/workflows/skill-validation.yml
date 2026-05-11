@@ -1,0 +1,49 @@
+name: Skill Validation Pipeline
+
+on:
+  pull_request:
+    paths:
+      - 'skills/**'
+
+jobs:
+  validate-skill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install jsonschema
+
+      - name: Detect changed skill
+        id: changed
+        run: |
+          CHANGED=$(git diff --name-only origin/main...HEAD | grep '^skills/' | head -1)
+          SKILL_DIR=$(dirname "$CHANGED")
+          echo "skill_path=$CHANGED" >> $GITHUB_OUTPUT
+          echo "skill_dir=$SKILL_DIR" >> $GITHUB_OUTPUT
+
+      - name: Template compliance scan
+        run: |
+          python scripts/validate_template.py "${{ steps.changed.outputs.skill_dir }}"
+
+      - name: Secret and PII detection
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+      - name: Validate manifest.json schema
+        run: |
+          python scripts/validate_manifest.py "${{ steps.changed.outputs.skill_dir }}/manifest.json"
+
+      - name: Schema diff check
+        run: |
+          python scripts/schema_diff.py "${{ steps.changed.outputs.skill_dir }}"

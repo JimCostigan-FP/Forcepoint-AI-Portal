@@ -1,0 +1,6 @@
+# All skill submissions require Architecture Review Team + Data Steward approval
+/skills/                @forcepoint/architecture-review-team @forcepoint/data-stewards
+
+# CI scripts and GitHub config require Architecture Review Team only
+/.github/               @forcepoint/architecture-review-team
+/scripts/               @forcepoint/architecture-review-team
