@@ -105,7 +105,13 @@ export default function SkillBuilder({ onFirstDownload }) {
 
   return (
     <div className="skill-builder-wrap">
-      <div className="skill-builder-header" onClick={() => setIsOpen(o => !o)}>
+      <button
+        type="button"
+        className="skill-builder-header"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen(o => !o)}
+        style={{ border: 'none', font: 'inherit', color: 'inherit', textAlign: 'left', width: '100%' }}
+      >
         <div className="skill-builder-title">
           <div className="card-icon teal" style={{ width: 28, height: 28, fontSize: 11, margin: 0 }}>S</div>
           <div>
@@ -117,7 +123,7 @@ export default function SkillBuilder({ onFirstDownload }) {
           <span className="badge badge-design">Beta</span>
           <span className={`sb-chevron${isOpen ? ' open' : ''}`}>&#x25BE;</span>
         </div>
-      </div>
+      </button>
 
       <div className={`skill-builder-body${isOpen ? '' : ' collapsed'}`}>
         {/* Left: form */}

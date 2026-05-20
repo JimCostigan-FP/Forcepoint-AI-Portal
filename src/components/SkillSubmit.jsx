@@ -11,9 +11,10 @@ const PIPELINE_STEPS = [
   { id: 0, icon: '🛡', label: 'Security\nscan',         detail: 'MCP Security Scanner — checking for secrets, credentials, hard-coded PII, and API keys.' },
   { id: 1, icon: '⚖', label: 'Compliance\ncheck',       detail: 'Policy alignment review — Forcepoint AI Policy (FP-IS-AI) and data classification check.' },
   { id: 2, icon: '🔒', label: 'DLP\nreview',            detail: 'Data loss prevention — verifying no regulated data (PII, PHI, proprietary) embedded in skill file.' },
-  { id: 3, icon: '📄', label: 'Documentation\nquality', detail: 'Template compliance — manifest.json, README.md, and {skill-name}.md all present and valid.' },
-  { id: 4, icon: '🔧', label: 'Skills\nEngineering',    detail: 'Routed to Skills Engineering for technical review, trust tier assignment, and pilot planning.' },
+  { id: 3, icon: '📄', label: 'Template\ncompliance',   detail: 'Template compliance — manifest.json, README.md, and {skill-name}.md all present and valid.' },
+  { id: 4, icon: '🔧', label: 'Engineering\nreview',    detail: 'Routed to Skills Engineering for technical review, trust tier assignment, and pilot planning.' },
   { id: 5, icon: '🧪', label: 'GitHub\nPR queue',       detail: 'Queued as a pull request in the Enterprise Skills GitHub repository for IT review and merge.' },
+  { id: 6, icon: '🎫', label: 'Jira\nintake',           detail: 'Story created on the AI Jira board with label ai-skills-intake and linked to the GitHub PR.' },
 ]
 
 // ── PIPELINE STUBS — replace bodies with real service calls ──
@@ -314,12 +315,106 @@ function ReadmeModal({ skillName, version, ownerEmail, onSave, onClose }) {
   )
 }
 
+// ── JIRA INTAKE — proxied through /api/jira-intake so the token stays server-side ──
+async function createJiraStory({ skillName, version, refNum, prResult, submitter, intent }) {
+  try {
+    const res = await fetch('/api/jira-intake', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        skillName, version, refNum,
+        prUrl:    prResult.prUrl,
+        prNumber: prResult.prNumber,
+        branch:   prResult.branch,
+        submitter, intent,
+      }),
+    })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok || !data.ok) {
+      return { ok: false, error: data.error || `HTTP ${res.status}` }
+    }
+    return data  // { ok, issueKey, issueUrl }
+  } catch (e) {
+    return { ok: false, error: e.message || 'Network error' }
+  }
+}
+
+// ── PIPELINE NOTE — replaces dangerouslySetInnerHTML rendering ──
+function PipelineNote({ note, isFirst }) {
+  const body = (() => {
+    switch (note.kind) {
+      case 'meta':
+        return (
+          <>
+            Submitted by <strong>{note.name}</strong> ({note.dept}) · {note.email} ·{' '}
+            <code style={{ fontFamily: 'var(--font-mono)', background: 'var(--teal-pale)', color: 'var(--teal)', padding: '1px 5px', borderRadius: 3 }}>
+              {note.sName} v{note.sVer}
+            </code> · {note.time}
+          </>
+        )
+      case 'pass':
+        return (
+          <>
+            {note.detail} <span style={{ color: 'var(--teal)', fontWeight: 600 }}>PASS</span>
+          </>
+        )
+      case 'fail':
+        return (
+          <>
+            {note.detail} <span style={{ color: '#A32D2D', fontWeight: 600 }}>FAIL — {note.error}</span>
+          </>
+        )
+      case 'success':
+        return (
+          <div style={{ marginTop: '0.75rem', padding: '0.75rem 0.9rem', background: 'var(--teal-pale)', border: '1px solid var(--teal-light)', borderRadius: 'var(--radius-md)', fontSize: 12, lineHeight: 1.65 }}>
+            <strong style={{ color: 'var(--teal)', display: 'block', marginBottom: 4 }}>✅ All checks passed — PR opened.</strong>
+            <a href={note.prUrl} target="_blank" rel="noreferrer" style={{ fontWeight: 600, color: 'var(--teal)' }}>{note.prUrl} ↗</a>
+            <br /><br />
+            Branch <code style={{ fontFamily: 'var(--font-mono)', background: '#fff', padding: '1px 5px', borderRadius: 3 }}>skill/{note.sName}/v{note.sVer}</code> → <code style={{ fontFamily: 'var(--font-mono)', background: '#fff', padding: '1px 5px', borderRadius: 3 }}>main</code>
+            <br /><br />
+            Reference: <strong>{note.ref}</strong> &nbsp;·&nbsp; Submitter: <strong>{note.name}</strong> ({note.dept})
+            {note.jiraKey ? (
+              <>
+                <br /><br />
+                Jira: <a href={note.jiraUrl} target="_blank" rel="noreferrer" style={{ fontWeight: 600, color: 'var(--teal)' }}>{note.jiraKey} ↗</a>
+                <span style={{ color: 'var(--text-light)' }}> &nbsp;·&nbsp; label <code style={{ fontFamily: 'var(--font-mono)', background: '#fff', padding: '1px 5px', borderRadius: 3 }}>ai-skills-intake</code></span>
+              </>
+            ) : (
+              <>
+                <br /><br />
+                <span style={{ color: '#A32D2D' }}>Jira intake did not complete — create the Story manually:</span>{' '}
+                <a href="https://forcepoint.atlassian.net/jira/software/c/projects/AI/boards/4770" target="_blank" rel="noreferrer" style={{ color: 'var(--teal-mid)' }}>AI board 4770 ↗</a>
+              </>
+            )}
+          </div>
+        )
+      default:
+        return null
+    }
+  })()
+
+  if (isFirst) return <div>{body}</div>
+  return (
+    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 3 }}>
+      ✓ {body}
+    </div>
+  )
+}
+
 // ── MAIN COMPONENT ─────────────────────────────────────────
-export default function SkillSubmit() {
+export default function SkillSubmit({ open, onOpenChange }) {
   const fileInputRef = useRef(null)
 
-  // Form state
-  const [isOpen,    setIsOpen]    = useState(false)
+  // Form state — supports both controlled (open + onOpenChange from parent) and uncontrolled use
+  const [internalOpen, setInternalOpen] = useState(false)
+  const isControlled = open !== undefined
+  const isOpen = isControlled ? open : internalOpen
+  const setIsOpen = (next) => {
+    const value = typeof next === 'function' ? next(isOpen) : next
+    if (isControlled) onOpenChange?.(value)
+    else setInternalOpen(value)
+  }
+
   const [name,      setName]      = useState('')
   const [email,     setEmail]     = useState('')
   const [dept,      setDept]      = useState('')
@@ -342,10 +437,29 @@ export default function SkillSubmit() {
   const [pipeSteps,       setPipeSteps]       = useState(PIPELINE_STEPS.map(() => ({ state: 'queued', label: 'queued' })))
   const [pipeNotes,       setPipeNotes]       = useState([])
   const [submitDisabled,  setSubmitDisabled]  = useState(false)
+  const [prResult,        setPrResult]        = useState(null)
 
-  const addNote = html => setPipeNotes(n => [...n, html])
+  const addNote = note => setPipeNotes(n => [...n, note])
   const setStep = (idx, state, label) =>
     setPipeSteps(steps => steps.map((s, i) => i === idx ? { state, label } : s))
+
+  const resetForm = () => {
+    setName('')
+    setEmail('')
+    setDept('')
+    setIntent('')
+    setSkillName('')
+    setVersion('1.0')
+    setInventory({ manifest: null, readme: null, skillMd: null })
+    setDragOver(false)
+    setValMsg(null)
+    setSubmitted(false)
+    setRefNum('')
+    setPipeSteps(PIPELINE_STEPS.map(() => ({ state: 'queued', label: 'queued' })))
+    setPipeNotes([])
+    setSubmitDisabled(false)
+    setPrResult(null)
+  }
 
   // ── READ FILE TO STRING ───────────────────────────────
   const readText = file => new Promise((res, rej) => {
@@ -434,7 +548,7 @@ export default function SkillSubmit() {
     setSubmitted(true)
     setSubmitDisabled(true)
     setValMsg(null)
-    setPipeNotes([`Submitted by <strong>${name}</strong> (${dept}) · ${email} · <code style="font-family:var(--font-mono);background:var(--teal-pale);color:var(--teal);padding:1px 5px;border-radius:3px;">${sName} v${sVer}</code> · ${new Date().toLocaleString()}`])
+    setPipeNotes([{ kind: 'meta', name, dept, email, sName, sVer, time: new Date().toLocaleString() }])
 
     const run = async (idx, checkFn, ...args) => {
       setStep(idx, 'running', 'scanning…')
@@ -443,11 +557,11 @@ export default function SkillSubmit() {
       await pause(800)
       if (!result.ok) {
         setStep(idx, 'fail', 'failed')
-        addNote(`${PIPELINE_STEPS[idx].detail} <span style="color:#A32D2D;font-weight:600;">FAIL — ${result.error}</span>`)
+        addNote({ kind: 'fail', label: PIPELINE_STEPS[idx].label, detail: PIPELINE_STEPS[idx].detail, error: result.error })
         return false
       }
       setStep(idx, 'pass', 'pass ✓')
-      addNote(`${PIPELINE_STEPS[idx].detail} <span style="color:var(--teal);font-weight:600;">PASS</span>`)
+      addNote({ kind: 'pass', label: PIPELINE_STEPS[idx].label, detail: PIPELINE_STEPS[idx].detail })
       return true
     }
 
@@ -464,6 +578,7 @@ export default function SkillSubmit() {
     if (!result.ok) {
       setSubmitted(false)
       setSubmitDisabled(false)
+      setPrResult(null)
       setPipeSteps(PIPELINE_STEPS.map(() => ({ state: 'queued', label: 'queued' })))
       setPipeNotes([])
       setValMsg(`GitHub upload failed: ${result.error}`)
@@ -472,7 +587,26 @@ export default function SkillSubmit() {
 
     setStep(4, 'pass', 'assigned ✓')
     setStep(5, 'pass', `PR #${result.prNumber} ✓`)
-    addNote(`<div style="margin-top:0.75rem;padding:0.75rem 0.9rem;background:var(--teal-pale);border:1px solid var(--teal-light);border-radius:var(--radius-md);font-size:12px;line-height:1.65;"><strong style="color:var(--teal);display:block;margin-bottom:4px;">✅ All checks passed — PR opened.</strong><a href="${result.prUrl}" target="_blank" style="font-weight:600;color:var(--teal);">${result.prUrl} ↗</a><br/><br/>Branch <code style="font-family:var(--font-mono);background:#fff;padding:1px 5px;border-radius:3px;">skill/${sName}/v${sVer}</code> → <code style="font-family:var(--font-mono);background:#fff;padding:1px 5px;border-radius:3px;">main</code><br/><br/>Reference: <strong>${ref}</strong> &nbsp;·&nbsp; Submitter: <strong>${name}</strong> (${dept}) &nbsp;·&nbsp; <a href="https://forcepoint.atlassian.net/jira/software/c/projects/AI/boards/4837" target="_blank" style="color:var(--teal-mid);">Track in AI Jira board ↗</a></div>`)
+    setPrResult(result)
+
+    // ── STEP 7: JIRA INTAKE ─────────────────────────────
+    setStep(6, 'running', 'creating…')
+    const jira = await createJiraStory({
+      skillName: sName, version: sVer, refNum: ref,
+      prResult: result,
+      submitter: { name, email, dept },
+      intent: intent.trim(),
+    })
+
+    if (!jira.ok) {
+      setStep(6, 'fail', 'failed')
+      addNote({ kind: 'fail', label: PIPELINE_STEPS[6].label, detail: PIPELINE_STEPS[6].detail, error: jira.error })
+      addNote({ kind: 'success', prUrl: result.prUrl, prNumber: result.prNumber, sName, sVer, ref, name, dept })
+      return
+    }
+
+    setStep(6, 'pass', jira.issueKey)
+    addNote({ kind: 'success', prUrl: result.prUrl, prNumber: result.prNumber, sName, sVer, ref, name, dept, jiraKey: jira.issueKey, jiraUrl: jira.issueUrl })
   }
 
   // ── FILE INVENTORY DISPLAY ────────────────────────────
@@ -484,6 +618,16 @@ export default function SkillSubmit() {
   ]
 
   const allPresent = inventory.manifest && inventory.readme && inventory.skillMd
+
+  const inFlight  = submitted && !prResult
+  const succeeded = submitted && !!prResult
+  const submitButtonProps = succeeded
+    ? { label: 'Submit another skill',          onClick: resetForm,                              disabled: false }
+    : inFlight
+      ? { label: 'Running governance pipeline…', onClick: () => {},                              disabled: true }
+      : allPresent
+        ? { label: 'Submit to pipeline →',       onClick: submit,                                disabled: false }
+        : { label: 'Add all three files to submit', onClick: () => fileInputRef.current?.click(), disabled: false }
 
   const stepClass = s => ({ running: 'running', pass: 'pass', fail: 'fail' }[s] || '')
 
@@ -631,11 +775,11 @@ export default function SkillSubmit() {
               {valMsg && <div className="sb-validation sb-val-error">{valMsg}</div>}
               <button
                 className="sb-btn-primary"
-                disabled={submitDisabled || !allPresent}
-                onClick={submit}
-                style={{ minWidth: 160, opacity: (!allPresent && !submitDisabled) ? 0.5 : 1 }}
+                disabled={submitButtonProps.disabled}
+                onClick={submitButtonProps.onClick}
+                style={{ minWidth: 160, opacity: submitButtonProps.disabled ? 0.6 : 1 }}
               >
-                {allPresent ? 'Submit to pipeline →' : 'Add all three files to submit'}
+                {submitButtonProps.label}
               </button>
             </div>
 
@@ -659,7 +803,7 @@ export default function SkillSubmit() {
                 </div>
                 <div className="ss-pipeline-note">
                   {pipeNotes.map((note, i) => (
-                    <div key={i} dangerouslySetInnerHTML={{ __html: i === 0 ? note : `<div style="font-size:11px;color:var(--text-muted);margin-top:3px;">✓ ${note}</div>` }} />
+                    <PipelineNote key={i} note={note} isFirst={i === 0} />
                   ))}
                 </div>
               </div>

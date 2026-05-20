@@ -53,7 +53,13 @@ export default function GoSacBuilder() {
       className="skill-builder-wrap"
       style={{ marginTop: '1rem', opacity: visible ? 1 : 0, transition: 'opacity 0.5s ease' }}
     >
-      <div className="skill-builder-header" onClick={() => setIsOpen(o => !o)}>
+      <button
+        type="button"
+        className="skill-builder-header"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen(o => !o)}
+        style={{ border: 'none', font: 'inherit', color: 'inherit', textAlign: 'left', width: '100%' }}
+      >
         <div className="skill-builder-title">
           <div className="card-icon" style={{ width: 28, height: 28, fontSize: 14, margin: 0, background: 'var(--teal)', color: '#fff', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>⚽</div>
           <div>
@@ -65,7 +71,7 @@ export default function GoSacBuilder() {
           <span className="badge badge-design">Live data</span>
           <span className={`sb-chevron${isOpen ? ' open' : ''}`}>&#x25BE;</span>
         </div>
-      </div>
+      </button>
 
       <div className={`skill-builder-body${isOpen ? '' : ' collapsed'}`}>
         {/* Left: explainer + download */}
