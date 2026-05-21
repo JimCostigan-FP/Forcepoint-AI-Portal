@@ -18,7 +18,7 @@ export default function PromptsSection({ active, onAskQuick }) {
           <button className="try-btn" onClick={() => onAskQuick(item.ask)}>Try this prompt →</button>
         </div>
       ))}
-      <button className="try-btn" style={{ marginTop: '0.5rem' }} onClick={() => onAskQuick('I want to submit a prompt to the Forcepoint AI Enablement portal showcase. Help me format it correctly.')}>
+      <button className="try-btn" style={{ marginTop: '0.5rem' }} onClick={() => onAskQuick('I want to submit a prompt to the Forcepoint Enterprise AI portal showcase. Help me format it correctly.')}>
         Submit a prompt →
       </button>
     </section>

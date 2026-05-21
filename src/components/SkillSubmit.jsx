@@ -87,7 +87,7 @@ async function pushInventoryToGitHub(skillName, version, inventory, committer, i
       method: 'POST', headers,
       body: JSON.stringify({
         title: `Skill Submission: ${skillName} v${version}`,
-        body:  `## Skill Submission: \`${skillName}\` v${version}\n\n**Submitter:** ${committer}\n\n### What does this skill do?\n${intent}\n\n---\n_Submitted via the Forcepoint AI Enablement Portal. Files at \`skills/${skillName}/v${version}/\`._`,
+        body:  `## Skill Submission: \`${skillName}\` v${version}\n\n**Submitter:** ${committer}\n\n### What does this skill do?\n${intent}\n\n---\n_Submitted via the Forcepoint Enterprise AI Portal. Files at \`skills/${skillName}/v${version}/\`._`,
         head: branch, base: 'main',
       }),
     })

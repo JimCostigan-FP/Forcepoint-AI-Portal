@@ -31,7 +31,7 @@ export const PORTAL_DATA = {
     {
       day: "22", month: "Apr",
       badge: "New", badgeClass: "badge-new",
-      title: "AI Enablement Portal launches",
+      title: "Enterprise AI Portal launches",
       desc:  "A dedicated portal replaces SharePoint as the home for everything AI at Forcepoint. Requested by David Burden, delivered by Enterprise AI."
     },
     {

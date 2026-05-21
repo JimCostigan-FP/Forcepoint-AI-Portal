@@ -19,7 +19,7 @@ export default function EventsSection({ active, onAskQuick }) {
           </div>
         ))}
       </div>
-      <button className="try-btn" style={{ marginTop: '1rem' }} onClick={() => onAskQuick('I want to propose a brown bag session on AI for the Forcepoint AI Enablement calendar. What information do I need to provide?')}>
+      <button className="try-btn" style={{ marginTop: '1rem' }} onClick={() => onAskQuick('I want to propose a brown bag session on AI for the Forcepoint Enterprise AI calendar. What information do I need to provide?')}>
         Propose a session →
       </button>
     </section>
